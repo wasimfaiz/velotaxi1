@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VeloTaxi – Cab Booking Service</title>
+
+<!-- Remix Icons CDN for premium icons -->
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+
+<style>
+/* ---------- Base ---------- */
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif}
+a{color:inherit}
+header{width:100%;padding:15px 25px;display:flex;justify-content:space-between;align-items:center;background:#fff;border-bottom:1px solid #eee;position:sticky;top:0;z-index:10}
+.logo{font-size:22px;font-weight:700}
+nav{display:flex;gap:20px;align-items:center}
+nav a{ text-decoration:none;color:#222;font-weight:500}
+.book-btn{background:#ffb400;padding:8px 14px;border-radius:6px;color:#000;display:flex;gap:8px;align-items:center}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+.hamburger span{width:25px;height:3px;background:#222}
+
+/* ---------- Hero ---------- */
+.hero{width:100%;height:70vh;position:relative;overflow:hidden}
+.hero-slider img{width:100%;height:100%;object-fit:cover;position:absolute;opacity:0;transition:0.6s}
+.hero-slider .active{opacity:1}
+.hero-content{position:absolute;bottom:20%;left:10%;color:#fff;max-width:760px}
+.hero-content h1{font-size:48px;font-weight:700;margin-bottom:8px;text-shadow:0 4px 18px rgba(0,0,0,0.45)}
+.hero-content p{margin:10px 0;font-size:18px;text-shadow:0 3px 12px rgba(0,0,0,0.35)}
+.hero-btn{background:#ffb400;padding:12px 20px;border-radius:8px;color:#000;text-decoration:none;font-weight:700;margin-top:18px;display:inline-block}
+
+/* ---------- Booking ---------- */
+.booking{max-width:900px;margin:50px auto;padding:20px;text-align:center}
+.booking-form{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;background:#fff;padding:25px;border-radius:12px;box-shadow:0 6px 24px rgba(6,8,15,0.06)}
+.form-group{display:flex;flex-direction:column;text-align:left}
+.form-group label{font-size:14px;margin-bottom:6px;color:#333}
+.form-group input,.form-group select{padding:12px;border-radius:8px;border:1px solid #e6e6e6}
+.book-submit{grid-column:span 2;padding:15px;background:#ffb400;border:none;border-radius:10px;font-size:18px;font-weight:bold;cursor:pointer}
+
+/* ---------- Sections & Grids ---------- */
+.services,.why-choose,.testimonials,.popular-routes{max-width:1100px;margin:50px auto;text-align:center;padding:20px}
+.services-title,.why-title,.testimonials-title,.routes-title, .booking-title{font-size:32px;font-weight:700;margin-bottom:30px}
+.services-container,.testimonial-container,.routes-container,.why-container{display:grid;gap:25px;grid-template-columns:repeat(4,1fr)}
+.service-box,.testimonial-box,.route-box,.why-box{background:#fff;padding:25px;border-radius:15px;box-shadow:0 8px 30px rgba(12,12,12,0.04);transition:transform .28s ease,box-shadow .28s ease;text-align:center}
+.service-box:hover,.route-box:hover,.why-box:hover,.testimonial-box:hover{transform:translateY(-6px);box-shadow:0 16px 45px rgba(12,12,12,0.08)}
+.service-icon{display:inline-flex;align-items:center;justify-content:center;width:76px;height:76px;border-radius:18px;background:linear-gradient(180deg,#fff,#f6f6f6);margin:0 auto 14px;font-size:32px;color:#ff8c00}
+.service-box h3,.why-box h3{font-size:20px;margin-bottom:10px}
+.service-box p,.why-box p,.testimonial-box p,.route-box p{font-size:15px;color:#555}
+
+/* ---------- Testimonials ---------- */
+.testimonial-container{grid-template-columns:repeat(3,1fr)}
+.testimonial-box img{width:65px;height:65px;border-radius:50%;object-fit:cover;margin-bottom:12px}
+.testimonial-box h4{font-size:18px;font-weight:700;margin-top:10px}
+.stars{color:#ffb300;margin:8px 0;font-size:18px}
+
+/* ---------- Routes ---------- */
+.routes-container{grid-template-columns:repeat(4,1fr)}
+.route-box img{width:100%;height:150px;object-fit:cover;border-radius:10px;margin-bottom:12px}
+.route-pin{font-size:20px;color:#ff8c00;margin-bottom:8px}
+
+/* ---------- Blogs ---------- */
+.blogs-section{padding:50px 20px;max-width:1100px;margin:40px auto}
+.blogs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.blog-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 10px 30px rgba(6,8,15,0.04);transition:transform .28s,box-shadow .28s}
+.blog-card img{width:100%;height:180px;object-fit:cover}
+.blog-card .content{padding:16px}
+.blog-card h3{font-size:18px;margin-bottom:8px}
+.blog-card p{color:#555;font-size:14px;margin-bottom:12px}
+.blog-btn{background:#ffb400;color:#000;padding:8px 14px;border-radius:8px;font-weight:700;text-decoration:none;display:inline-block}
+
+/* ---------- Counters ---------- */
+.counters{display:flex;justify-content:center;gap:40px;padding:50px 20px;background:#f7f7f7;margin-top:40px;flex-wrap:wrap}
+.counter-box{text-align:center}
+.counter{font-size:40px;font-weight:700;color:#ffb300}
+.counter-icon{display:block;font-size:28px;margin-bottom:8px;color:#ff8c00}
+
+/* ---------- Footer ---------- */
+.footer{background:#0b0b0b;color:#fff;padding:50px 20px;margin-top:40px}
+.footer-bottom { text-align:center; padding:15px; border-top:1px solid #444; margin-top:20px; font-size:14px; color:#bbb; }
+.footer-container{max-width:1200px;margin:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:30px}
+.footer h3{color:#ffcc00;margin-bottom:10px}
+.footer-col p,a{color:#d1d5db}
+.social-icons a{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:8px;background:transparent;color:#fff;margin-right:10px;font-size:18px;transition:all .18s}
+.social-icons a:hover{background:#111;color:#ffcc00}
+
+/* ---------- Floating Buttons ---------- */
+.floating-btns{position:fixed;bottom:20px;right:20px;display:flex;flex-direction:column;gap:12px;z-index:999}
+.float-btn{width:54px;height:54px;border-radius:50%;display:flex;justify-content:center;align-items:center;font-size:22px;color:#fff;text-decoration:none;box-shadow:0 8px 30px rgba(2,6,23,0.2)}
+.whatsapp-btn{background:linear-gradient(135deg,#25d366,#0aa35a)}
+.call-btn{background:linear-gradient(135deg,#007bff,#0062d6)}
+
+/* ---------- Helpers / Responsive ---------- */
+.icon-large{font-size:30px}
+@media(max-width:992px){.routes-container,.services-container,.testimonial-container,.why-container{grid-template-columns:repeat(2,1fr)}.blogs-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){nav{position:absolute;top:70px;right:0;width:100%;background:#fff;flex-direction:column;gap:15px;padding:20px;display:none}nav.show{display:flex}.hamburger{display:flex}.hero{height:50vh}.hero-content h1{font-size:30px}.blogs-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.routes-container,.services-container,.testimonial-container,.why-container{grid-template-columns:1fr}.booking-form{grid-template-columns:1fr}.book-submit{grid-column:span 1}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">VeloTaxi</div>
+
+  <nav id="nav-menu">
+    <a href="/index.html">Home</a>
+    <a href="/sevices.html">Services</a>
+    <a href="/allroutebook.html">Routes</a>
+    <a href="/fleet.html">Fleets</a>
+    <a href="#blogs">Blogs</a>
+    <a href="#contact">Contact</a>
+    <a href="#" class="book-btn"><i class="ri-taxi-fill icon-large"></i> Book Now</a>
+  </nav>
+
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-slider">
+    <img src="https://images.unsplash.com/photo-1713761525604-45384322feae?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="slide active" alt="">
+    <img src="https://images.unsplash.com/photo-1529253355930-ddbe423a2ac7" class="slide" alt="">
+    <img src="https://images.unsplash.com/photo-1576556744958-3fc2fe151fbd?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="slide" alt="">
+  </div>
+
+  <div class="hero-content">
+    <h1>Book Your Ride with VeloTaxi</h1>
+    <p>Fast • Safe • Affordable Cab Service</p>
+    <a href="#" class="hero-btn">Book a Cab</a>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section class="booking">
+  <h2 class="booking-title">Book Your Cab</h2>
+  <form class="booking-form">
+    <div class="form-group">
+      <label>Pickup Location</label>
+      <input type="text" placeholder="Enter pickup point" required>
+    </div>
+    <div class="form-group">
+      <label>Drop Location</label>
+      <input type="text" placeholder="Enter drop point" required>
+    </div>
+    <div class="form-group">
+      <label>Pickup Date</label>
+      <input type="date" required>
+    </div>
+    <div class="form-group">
+      <label>Pickup Time</label>
+      <input type="time" required>
+    </div>
+    <div class="form-group">
+      <label>Cab Type</label>
+      <select required>
+        <option value="">Select cab</option>
+        <option>Mini</option>
+        <option>Sedan</option>
+        <option>SUV</option>
+        <option>Traveller</option>
+      </select>
+    </div>
+
+    <button type="submit" class="book-submit">Confirm Booking</button>
+  </form>
+</section>
+
+<!-- Popular Routes -->
+<section class="popular-routes" id="routes">
+  <h2 class="routes-title">Popular Routes</h2>
+  <div class="routes-container">
+    <div class="route-box">
+      <div class="route-pin"><i class="ri-map-pin-2-fill"></i></div>
+      <img src="https://images.unsplash.com/photo-1601961405399-801fb1f34581?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+      <h3>Pune → Mumbai</h3>
+      <p>150 km • 3 hrs</p>
+    </div>
+
+    <div class="route-box">
+      <div class="route-pin"><i class="ri-map-pin-2-fill"></i></div>
+      <img src="https://images.unsplash.com/photo-1737347799179-40be496e5937?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+      <h3>Pune → Lonavala</h3>
+      <p>65 km • 1.5 hrs</p>
+    </div>
+
+    <div class="route-box">
+      <div class="route-pin"><i class="ri-map-pin-2-fill"></i></div>
+      <img src="https://images.unsplash.com/photo-1665888013405-9d4bdb9b115c?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+      <h3>Pune → Nashik</h3>
+      <p>210 km • 4 hrs</p>
+    </div>
+
+    <div class="route-box">
+      <div class="route-pin"><i class="ri-map-pin-2-fill"></i></div>
+      <img src="https://images.unsplash.com/photo-1614082242765-7c98ca0f3df3?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+      <h3>Pune → Goa</h3>
+      <p>450 km • 8 hrs</p>
+    </div>
+  </div>
+
+    <div class="routes-footer" style="margin-top:45px; text-align:center;">
+      <a href="/allroutebook.html" class="view-all" style="background:#ffb400; padding:10px 22px; border-radius:8px; color:#000; text-decoration:none; font-weight:600; box-shadow:0 4px 10px rgba(0,0,0,0.15); display:inline-block;">View All Routes →</a>
+    </div>
+
+  <!-- <div style="margin-top:45px;text-align:center">
+    <a href="#" class="book-btn" style="background:#ffb400;color:#000;border-radius:8px;padding:10px 22px;box-shadow:0 8px 24px rgba(255,180,0,0.12)">View All Routes →</a>
+  </div> -->
+</section>
+
+<!-- Services -->
+<section class="services" id="services">
+  <h2 class="services-title">Our Services</h2>
+
+  <div class="services-container">
+    <div class="service-box">
+      <div class="service-icon"><i class="ri-taxi-fill"></i></div>
+      <h3>City Rides</h3>
+      <p>Quick and affordable cab rides across the city at any time.</p>
+    </div>
+
+    <div class="service-box">
+      <div class="service-icon"><i class="ri-flight-takeoff-fill"></i></div>
+      <h3>Airport Transfers</h3>
+      <p>On-time airport pickup & drop with professional drivers.</p>
+    </div>
+
+    <div class="service-box">
+      <div class="service-icon"><i class="ri-map-pin-2-fill"></i></div>
+      <h3>Outstation Trips</h3>
+      <p>Comfortable long-distance cab services at best prices.</p>
+    </div>
+
+    <div class="service-box">
+      <div class="service-icon"><i class="ri-star-fill"></i></div>
+      <h3>Luxury Rides</h3>
+      <p>Premium cabs for a luxurious and comfortable travel experience.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="why-choose" id="why">
+  <h2 class="why-title">Why Choose Us</h2>
+  <div class="why-container">
+    <div class="why-box">
+      <div class="service-icon"><i class="ri-time-line"></i></div>
+      <h3>24/7 Service</h3>
+      <p>Our cabs are available round the clock for all your travel needs.</p>
+    </div>
+    <div class="why-box">
+      <div class="service-icon"><i class="ri-shield-check-fill"></i></div>
+      <h3>Safety First</h3>
+      <p>Professional drivers and safety protocols ensure secure rides.</p>
+    </div>
+    <div class="why-box">
+      <div class="service-icon"><i class="ri-wallet-3-fill"></i></div>
+      <h3>Affordable Pricing</h3>
+      <p>Competitive rates for city rides, outstation trips, and airport transfers.</p>
+    </div>
+    <div class="why-box">
+      <div class="service-icon"><i class="ri-car-fill"></i></div>
+      <h3>Wide Fleet</h3>
+      <p>A variety of cars to choose from for all occasions and comfort levels.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Blogs -->
+<section class="blogs-section" id="blogs">
+  <h2 class="routes-title" style="text-align:center">Latest from Our Blog</h2>
+  <div class="blogs-grid">
+    <div class="blog-card">
+      <img src="https://plus.unsplash.com/premium_photo-1664301085009-470198636a73?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+      <div class="content">
+        <h3>Top 5 Tips for Safe Cab Travel</h3>
+        <p>Learn essential safety tips to ensure a smooth and secure journey every time.</p>
+        <a href="#" class="blog-btn">Read More →</a>
+      </div>
+    </div>
+
+    <div class="blog-card">
+      <img src="https://plus.unsplash.com/premium_photo-1680102982063-1036a4577303?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+      <div class="content">
+        <h3>How to Save Money on Outstation Rides</h3>
+        <p>Simple strategies that can help you cut costs on long-distance travels.</p>
+        <a href="#" class="blog-btn">Read More →</a>
+      </div>
+    </div>
+
+    <div class="blog-card">
+      <img src="https://images.unsplash.com/photo-1764162051504-7d74009a5bf7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+      <div class="content">
+        <h3>Why Choose VeloTaxi for Daily Commute?</h3>
+        <p>Discover what makes VeloTaxi the most trusted cab service in the city.</p>
+        <a href="#" class="blog-btn">Read More →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials" id="testimonials">
+  <h2 class="testimonials-title">What Our Customers Say</h2>
+  <div class="testimonial-container">
+    <div class="testimonial-box">
+      <img src="https://i.pravatar.cc/120?img=1" alt="">
+      <p>"VeloTaxi made my airport transfer super easy and hassle-free. Highly recommended!"</p>
+      <div class="stars"><i class="ri-star-fill" style="color:#ffb300"></i><i class="ri-star-fill" style="color:#ffb300"></i><i class="ri-star-fill" style="color:#ffb300"></i><i class="ri-star-fill" style="color:#ffb300"></i><i class="ri-star-fill" style="color:#ffb300"></i></div>
+      <h4>- Priya S.</h4>
+    </div>
+
+    <div class="testimonial-box">
+      <img src="https://i.pravatar.cc/120?img=2" alt="">
+      <p>"The outstation trip to Lonavala was comfortable and safe. Excellent service!"</p>
+      <div class="stars"><i class="ri-star-fill" style="color:#ffb300"></i><i class="ri-star-fill" style="color:#ffb300"></i><i class="ri-star-fill" style="color:#ffb300"></i><i class="ri-star-fill" style="color:#ffb300"></i><i class="ri-star-fill" style="color:#ffb300"></i></div>
+      <h4>- Rohit K.</h4>
+    </div>
+
+    <div class="testimonial-box">
+      <img src="https://i.pravatar.cc/120?img=3" alt="">
+      <p>"Quick city rides with professional drivers. VeloTaxi never disappoints!"</p>
+      <div class="stars"><i class="ri-star-fill" style="color:#ffb300"></i><i class="ri-star-fill" style="color:#ffb300"></i><i class="ri-star-fill" style="color:#ffb300"></i><i class="ri-star-fill" style="color:#ffb300"></i><i class="ri-star-fill" style="color:#ffb300"></i></div>
+      <h4>- Sneha M.</h4>
+    </div>
+  </div>
+</section>
+
+<!-- Counters -->
+<section class="counters">
+  <div class="counter-box">
+    <span class="counter-icon"><i class="ri-taxi-fill"></i></span>
+    <h2 class="counter" data-target="50000">0</h2>
+    <p>Rides Completed</p>
+  </div>
+
+  <div class="counter-box">
+    <span class="counter-icon"><i class="ri-thumb-up-fill"></i></span>
+    <h2 class="counter" data-target="1200">0</h2>
+    <p>Happy Customers</p>
+  </div>
+
+  <div class="counter-box">
+    <span class="counter-icon"><i class="ri-user-3-fill"></i></span>
+    <h2 class="counter" data-target="250">0</h2>
+    <p>Active Drivers</p>
+  </div>
+
+  <div class="counter-box">
+    <span class="counter-icon"><i class="ri-global-fill"></i></span>
+    <h2 class="counter" data-target="98">0</h2>
+    <p>City Coverage (%)</p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer" id="contact">
+  <div class="footer-container">
+    <div class="footer-col">
+      <h3>VeloTaxi</h3>
+      <p>Your trusted cab partner for safe and comfortable rides.</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#routes">Popular Routes</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Contact Us</h4>
+      <p><i class="ri-map-pin-2-fill"></i> Pune, Maharashtra</p>
+      <p><i class="ri-phone-fill"></i> +91 9876543210</p>
+      <p><i class="ri-mail-fill"></i> support@velotaxi.com</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Follow Us</h4>
+      <div class="social-icons">
+        <a href="#" aria-label="facebook"><i class="ri-facebook-circle-fill"></i></a>
+        <a href="#" aria-label="instagram"><i class="ri-instagram-fill"></i></a>
+        <a href="#" aria-label="twitter"><i class="ri-twitter-fill"></i></a>
+        <a href="#" aria-label="youtube"><i class="ri-youtube-fill"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">© 2025 VeloTaxi. All rights reserved.</div>
+</footer>
+
+<!-- Floating Buttons -->
+<div class="floating-btns">
+  <a href="https://wa.me/919876543210" class="float-btn whatsapp-btn" aria-label="WhatsApp"><i class="ri-whatsapp-line"></i></a>
+  <a href="tel:+919876543210" class="float-btn call-btn" aria-label="Call"><i class="ri-phone-fill"></i></a>
+</div>
+
+<!-- Scripts -->
+<script>
+// hamburger
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.getElementById('nav-menu');
+if(hamburger) hamburger.addEventListener('click', ()=> navMenu.classList.toggle('show'));
+
+// hero slider
+let slides = document.querySelectorAll('.slide');
+let index = 0;
+setInterval(()=>{
+  slides.forEach(s=>s.classList.remove('active'));
+  slides[index].classList.add('active');
+  index = (index + 1) % slides.length;
+}, 3000);
+
+// booking form
+const bookingForm = document.querySelector('.booking-form');
+if(bookingForm) bookingForm.addEventListener('submit', e=>{ e.preventDefault(); alert('Your booking request has been submitted!'); });
+
+// counters
+const counters = document.querySelectorAll('.counter');
+const speed = 80;
+function animateCounters(){
+  counters.forEach(counter=>{
+    const update = ()=>{
+      const target = +counter.getAttribute('data-target');
+      const count = +counter.innerText;
+      const inc = Math.ceil(target / speed);
+      if(count < target){
+        counter.innerText = Math.min(count + inc, target);
+        setTimeout(update, 24);
+      } else {
+        counter.innerText = target;
+      }
+    };
+    update();
+  });
+}
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting) animateCounters();
+  });
+},{threshold:0.4});
+const countersSection = document.querySelector('.counters');
+if(countersSection) obs.observe(countersSection);
+</script>
+
+</body>
+</html>

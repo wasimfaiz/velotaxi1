@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Routes | VeloTaxi</title>
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif}
+body{background:#f6f7fb;color:#222}
+a{text-decoration:none;color:inherit}
+
+/* Header */
+.header{background:#fff;padding:16px 30px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 20px rgba(0,0,0,.05)}
+.logo{font-size:22px;font-weight:700}
+.back-btn{background:#ffb400;padding:10px 18px;border-radius:8px;font-weight:700}
+
+/* Hero */
+.routes-hero{padding:60px 20px; color: #fff; text-align:center;background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)), url('https://images.unsplash.com/photo-1542362567-b07e54358753') center/cover no-repeat}
+.routes-hero h1{font-size:40px;margin-bottom:10px}
+.routes-hero p{font-size:18px}
+
+/* Filters */
+.filters{max-width:1100px;margin:40px auto;display:flex;gap:20px;flex-wrap:wrap;justify-content:center}
+.filters input,.filters select{padding:14px 16px;border-radius:10px;border:1px solid #ddd;min-width:220px}
+
+/* Routes Grid */
+.routes-grid{max-width:1200px;margin:20px auto 60px;padding:0 20px;display:grid;grid-template-columns:repeat(3,1fr);gap:25px}
+.route-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 12px 35px rgba(0,0,0,.06);transition:.3s}
+.route-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.1)}
+.route-card img{width:100%;height:180px;object-fit:cover}
+.route-body{padding:18px}
+.route-body h3{font-size:20px;margin-bottom:6px}
+.route-meta{color:#666;font-size:14px;margin-bottom:10px}
+.route-price{font-weight:700;color:#ff9800;font-size:18px;margin-bottom:12px}
+.book-route{display:inline-flex;align-items:center;gap:6px;background:#ffb400;padding:10px 18px;border-radius:8px;font-weight:700}
+
+/* Footer */
+.footer{text-align:center;padding:30px;background:#0b0b0b;color:#fff}
+
+@media(max-width:900px){.routes-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.routes-grid{grid-template-columns:1fr}.routes-hero h1{font-size:28px}}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">VeloTaxi</div>
+  <a href="index.html" class="back-btn"><i class="ri-arrow-left-line"></i> Back</a>
+</header>
+
+<section class="routes-hero">
+  <h1>All Cab Routes</h1>
+  <p>Explore our most popular city & outstation routes</p>
+</section>
+
+<section class="filters">
+  <input type="text" placeholder="From city">
+  <input type="text" placeholder="To city">
+  <select>
+    <option>Distance</option>
+    <option>Below 100 km</option>
+    <option>100 – 300 km</option>
+    <option>300+ km</option>
+  </select>
+</section>
+
+<section class="routes-grid">
+  <div class="route-card">
+    <img src="https://images.unsplash.com/photo-1601961405399-801fb1f34581?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+    <div class="route-body">
+      <h3>Pune → Mumbai</h3>
+      <div class="route-meta">150 km • 3 hrs</div>
+      <div class="route-price">Starting ₹3,499</div>
+      <a href="https://wa.me/919876543210" class="book-route" onclick="bookWhatsApp('Pune to Mumbai')">Book on WhatsApp <i class="ri-whatsapp-line"></i></a>
+    </div>
+  </div>
+
+  <div class="route-card">
+    <img src="https://images.unsplash.com/photo-1737347799179-40be496e5937?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+    <div class="route-body">
+      <h3>Pune → Lonavala</h3>
+      <div class="route-meta">65 km • 1.5 hrs</div>
+      <div class="route-price">Starting ₹1,499</div>
+      <a href="https://wa.me/919876543210" class="book-route" onclick="bookWhatsApp('Pune to Lonavala')">Book on WhatsApp <i class="ri-whatsapp-line"></i></a>
+    </div>
+  </div>
+
+  <div class="route-card">
+    <img src="https://images.unsplash.com/photo-1665888013405-9d4bdb9b115c?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+    <div class="route-body">
+      <h3>Pune → Nashik</h3>
+      <div class="route-meta">210 km • 4 hrs</div>
+      <div class="route-price">Starting ₹4,999</div>
+      <a href="https://wa.me/919876543210" class="book-route" onclick="bookWhatsApp('Pune to Nashik')">Book on WhatsApp <i class="ri-whatsapp-line"></i></a>
+    </div>
+  </div>
+
+  <div class="route-card">
+    <img src="https://images.unsplash.com/photo-1614082242765-7c98ca0f3df3?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+    <div class="route-body">
+      <h3>Pune → Goa</h3>
+      <div class="route-meta">450 km • 8 hrs</div>
+      <div class="route-price">Starting ₹9,999</div>
+      <a href="https://wa.me/919876543210" class="book-route" onclick="bookWhatsApp('Pune to Goa')">Book on WhatsApp <i class="ri-whatsapp-line"></i></a>
+    </div>
+  </div>
+  <div class="route-card">
+    <img src="https://plus.unsplash.com/premium_photo-1676196138129-0f51095eb6f5?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+    <div class="route-body">
+      <h3>Pune → Shirdi</h3>
+      <div class="route-meta">185 km • 4 hrs</div>
+      <div class="route-price">Starting ₹4,299</div>
+      <a href="https://wa.me/919876543210" class="book-route" onclick="bookWhatsApp('Pune to Shirdi')">Book on WhatsApp <i class="ri-whatsapp-line"></i></a>
+    </div>
+  </div>
+
+  <div class="route-card">
+    <img src="https://plus.unsplash.com/premium_photo-1697730318734-2ffb7e5a0bfc?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+    <div class="route-body">
+      <h3>Pune → Nagpur</h3>
+      <div class="route-meta">715 km • 12 hrs</div>
+      <div class="route-price">Starting ₹13,999</div>
+      <a href="https://wa.me/919876543210" class="book-route" onclick="bookWhatsApp('Pune to Nagpur')">Book on WhatsApp <i class="ri-whatsapp-line"></i></a>
+    </div>
+  </div>
+
+  <div class="route-card">
+    <img src="https://images.unsplash.com/photo-1600251869898-96138e5e3ad4?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+    <div class="route-body">
+      <h3>Pune → Mahabaleshwar</h3>
+      <div class="route-meta">120 km • 3 hrs</div>
+      <div class="route-price">Starting ₹2,999</div>
+      <a href="https://wa.me/919876543210" class="book-route" onclick="bookWhatsApp('Pune to Mahabaleshwar')">Book on WhatsApp <i class="ri-whatsapp-line"></i></a>
+    </div>
+  </div>
+
+  <div class="route-card">
+    <img src="https://images.unsplash.com/photo-1477587458883-47145ed94245?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+    <div class="route-body">
+      <h3>Pune → Rajasthan</h3>
+      <div class="route-meta">1,000+ km • Multi-day</div>
+      <div class="route-price">Starting ₹19,999</div>
+      <a href="https://wa.me/919876543210" class="book-route" onclick="bookWhatsApp('Pune to Rajasthan')">Book on WhatsApp <i class="ri-whatsapp-line"></i></a>
+    </div>
+  </div>
+
+  <div class="route-card">
+    <img src="https://images.unsplash.com/photo-1622257955271-a7c070559998?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+    <div class="route-body">
+      <h3>Pune → Gujarat</h3>
+      <div class="route-meta">850 km • 15 hrs</div>
+      <div class="route-price">Starting ₹16,999</div>
+      <a href="https://wa.me/919876543210" class="book-route" onclick="bookWhatsApp('Pune to Gujrat')">Book on WhatsApp <i class="ri-whatsapp-line"></i></a>
+    </div>
+  </div>
+
+  <div class="route-card">
+    <img src="https://plus.unsplash.com/premium_photo-1691031429925-85a3874f210e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+    <div class="route-body">
+      <h3>Pune → Tirupati Balaji Temple</h3>
+      <div class="route-meta">870 km • 16 hrs</div>
+      <div class="route-price">Starting ₹17,999</div>
+      <a href="https://wa.me/919876543210" class="book-route" onclick="bookWhatsApp('Pune to Tirupati Balaji Temple')">Book on WhatsApp <i class="ri-whatsapp-line"></i></a>
+    </div>
+  </div>
+
+  <div class="route-card">
+    <img src="https://images.unsplash.com/photo-1598540711186-dc7ba360fe69?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+    <div class="route-body">
+      <h3>Pune → Alibagh</h3>
+      <div class="route-meta">145 km • 3.5 hrs</div>
+      <div class="route-price">Starting ₹3,299</div>
+      <a href="https://wa.me/919876543210" class="book-route" onclick="bookWhatsApp('Pune to Alibagh')">Book on WhatsApp <i class="ri-whatsapp-line"></i></a>
+    </div>
+  </div>
+
+  <div class="route-card">
+    <img src="https://images.unsplash.com/photo-1629353025246-51ebf45025b9?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+    <div class="route-body">
+      <h3>Pune → Aurangabad</h3>
+      <div class="route-meta">235 km • 5 hrs</div>
+      <div class="route-price">Starting ₹5,499</div>
+      <a href="https://wa.me/919876543210" class="book-route" onclick="bookWhatsApp('Pune to Aurangabad')">Book on WhatsApp <i class="ri-whatsapp-line"></i></a>
+    </div>
+  </div>
+  <div class="route-card">
+    <img src="https://plus.unsplash.com/premium_photo-1697729434815-40ab4970ebc1?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+    <div class="route-body">
+      <h3>Pune → Bangalore</h3>
+      <div class="route-meta">840 km • 14 hrs</div>
+      <div class="route-price">Starting ₹15,999</div>
+      <a href="https://wa.me/919876543210" class="book-route" onclick="bookWhatsApp('Pune to Bangalore')">Book on WhatsApp <i class="ri-whatsapp-line"></i></a>
+    </div>
+  </div>
+
+  <div class="route-card">
+    <img src="https://images.unsplash.com/photo-1711102230980-5f3001c1a07b?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+    <div class="route-body">
+      <h3>Pune → Hyderabad</h3>
+      <div class="route-meta">560 km • 10 hrs</div>
+      <div class="route-price">Starting ₹10,999</div>
+      <a href="https://wa.me/919876543210" class="book-route" onclick="bookWhatsApp('Pune to Hyderabad')">Book on WhatsApp <i class="ri-whatsapp-line"></i></a>
+    </div>
+  </div>
+
+  <div class="route-card">
+    <img src="https://plus.unsplash.com/premium_photo-1697729444936-8c6a6f643312?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+    <div class="route-body">
+      <h3>Pune → Chennai</h3>
+      <div class="route-meta">1,200 km • 20 hrs</div>
+      <div class="route-price">Starting ₹21,999</div>
+      <a href="https://wa.me/919876543210" class="book-route" onclick="bookWhatsApp('Pune to Chennai')">Book on WhatsApp <i class="ri-whatsapp-line"></i></a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">© 2025 VeloTaxi. All rights reserved.</footer>
+
+<script>
+function bookWhatsApp(route){
+  const phone = '919876543210';
+  const message = `Hello VeloTaxi,%0AI want to book a cab for *${route}*.%0APlease share price and availability.`;
+  window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+}
+</script>
+</body>
+</html>
